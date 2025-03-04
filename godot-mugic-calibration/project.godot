@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="godot-mugic-calibration"
-run/main_scene="res://mugic-calibration.tscn"
+run/main_scene="res://start_calibration.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[audio]
+
+general/text_to_speech=true
 
 [editor_plugins]
 

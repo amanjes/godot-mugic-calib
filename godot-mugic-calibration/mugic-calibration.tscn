@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://o6jcadms0r7n"]
+[gd_scene load_steps=8 format=3 uid="uid://o6jcadms0r7n"]
 
 [ext_resource type="Script" path="res://mugic_calibration.gd" id="1_g4gy5"]
 [ext_resource type="Texture2D" uid="uid://65a7b0js33vs" path="res://icon.svg" id="2_jv4vf"]
@@ -11,6 +11,9 @@ albedo_texture = ExtResource("2_jv4vf")
 [sub_resource type="BoxMesh" id="BoxMesh_e2i0y"]
 size = Vector3(1, 0.3, 1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1axbx"]
+albedo_color = Color(0.164706, 1, 1, 1)
+
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_g4gy5")
 
@@ -21,12 +24,16 @@ current = true
 [node name="Cube" type="MeshInstance3D" parent="."]
 material_override = SubResource("StandardMaterial3D_y28wv")
 mesh = SubResource("BoxMesh_e2i0y")
+surface_material_override/0 = SubResource("StandardMaterial3D_1axbx")
 
 [node name="INFO" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.561355, 0.1668, 0.129135)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.561, 1, 0.129)
 
 [node name="OSCServer" type="Node" parent="."]
 script = ExtResource("3_gblh7")
+port = 4000
 
-[node name="OSCReceiver" type="Node" parent="."]
+[node name="OSCReceiver" type="Node" parent="." node_paths=PackedStringArray("target_server")]
 script = ExtResource("4_bbet6")
+target_server = NodePath("../OSCServer")
+osc_address = "/mugicdata"

@@ -10,15 +10,13 @@ var extra_rotation_degrees = 0
 
 func _ready():
 	# Set up OSC server and receiver
-	osc_server.port = 4000  # Use the same port as in the Python script
 	osc_receiver.target_server = osc_server
 	osc_receiver.osc_address = "/mugicdata"
 
 	# Connect the message_received signal
 	osc_server.connect("message_received", Callable(self, "_on_osc_message"))
-
 	# Set up cube materials
-	#setup_cube_materials()
+	setup_cube_materials()
 
 func setup_cube_materials():
 	var materials = [
@@ -41,7 +39,6 @@ func create_material(color: Color) -> StandardMaterial3D:
 func _on_osc_message(address, value, time):
 	if address == "/mugicdata":
 		parse_mugic_data(value)
-		print("mugic data adress")
 
 func parse_mugic_data(data):
 	mugic_data = {
@@ -64,8 +61,8 @@ func _process(delta):
 func update_cube_transform():
 	for key in mugic_data:
 		var value = mugic_data[key]
-		print("Stat: %s, Value: %s" % [key, value])
-	var quat = Quaternion(mugic_data.QX, mugic_data.QY, mugic_data.QZ, mugic_data.QW)
+		#print("Stat: %s, Value: %s" % [key, value])
+	var quat = Quaternion(mugic_data.QX, mugic_data.QZ, -(mugic_data.QY), (mugic_data.QW))
 	cube.transform.basis = Basis(quat)
 	cube.rotate_y(deg_to_rad(extra_rotation_degrees))
 	cube.transform.origin = Vector3(-mugic_data.AX / 50.0, mugic_data.AZ / 50.0, mugic_data.AY / 50.0)
